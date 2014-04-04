@@ -85,13 +85,17 @@ ApplicationWindow {
             id: usernametext
             anchors.left: useravatar.right
             anchors.bottom: useravatar.verticalCenter
+            anchors.right: connectionstatusicon.left
             text: CoreModel.user.username == "" ? "New user" : CoreModel.user.username
             font.pointSize: 13
             color: palette.windowText
+            elide: Text.ElideRight
+
             TextField {
                 id: editusername
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
+                anchors.right: parent.right
                 visible: false
                 text: parent.text
                 onAccepted: {
@@ -127,9 +131,11 @@ ApplicationWindow {
             id: userstatusmessage
             anchors.top: usernametext.bottom
             anchors.left: usernametext.left
+            anchors.right: usernametext.right
             text: CoreModel.user.statusNote ? CoreModel.user.statusNote : "Online"
             color: usernametext.color
             font.pointSize: usernametext.font.pointSize - 2
+            elide: Text.ElideRight
 
             TextField {
                 id: edituserstatusmessage
@@ -250,21 +256,26 @@ ApplicationWindow {
                         id: username
                         anchors.left: friendavatar.right
                         anchors.bottom: friendavatar.verticalCenter
+                        anchors.right: statusicon.left
                         color: styleData.selected ? palette.highlightedText : palette.windowText
                         text: friendslist.model[styleData.row].username
                         font.pointSize: 13
+                        elide: Text.ElideRight
                     }
 
                     Text {
                         id: status
                         anchors.top: username.bottom
                         anchors.left: username.left
+                        anchors.right: statusicon.left
                         text: CoreModel.friends[styleData.row].statusNote
                         color: username.color
                         font.pointSize: username.font.pointSize - 2
+                        elide: Text.ElideRight
                     }
 
                     Image {
+                        id: statusicon
                         anchors.margins: 6
                         antialiasing: true
                         anchors.right: parent.right
