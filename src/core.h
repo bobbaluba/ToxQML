@@ -49,7 +49,7 @@ private:
         uint16_t size;
     };
 
-    QTimer *eventtimer;
+    QTimer eventtimer;
     bool m_connected;
     QString m_id;
 
