@@ -103,7 +103,7 @@ public slots:
     void acceptFriendRequest(const QString& key);
     void sendFriendRequest(const QString& key, const QString& message);
 
-    void sendFriendMessge(int friendnumber, const QString& message);
+    void sendFriendMessage(int friendnumber, const QString& message);
 
     void deleteFriend(int friendnumber);
 

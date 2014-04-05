@@ -270,7 +270,7 @@ void Core::sendFriendRequest(const QString &address, const QString &message)
     }
 }
 
-void Core::sendFriendMessge(int friendnumber, const QString &message)
+void Core::sendFriendMessage(int friendnumber, const QString &message)
 {
     QByteArray ret = message.toUtf8();
     tox_send_message(m_tox, friendnumber, reinterpret_cast<uint8_t*>(ret.data()), ret.size());

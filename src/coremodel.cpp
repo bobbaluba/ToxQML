@@ -117,7 +117,7 @@ void CoreModel::sendFriendrequest(const QString &key, const QString &message)
 
 void CoreModel::sendFriendMessage(int id, const QString &message)
 {
-    m_core->sendFriendMessge(id, message);
+    m_core->sendFriendMessage(id, message);
 }
 
 void CoreModel::setuserUsername(const QString &name)
