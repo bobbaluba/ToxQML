@@ -39,7 +39,7 @@ QString Core::userId()
 {
     QByteArray buffer;
     buffer.resize(TOX_FRIEND_ADDRESS_SIZE);
-    tox_get_address(m_tox, buffer.data());
+    tox_get_address(m_tox, reinterpret_cast<uint8_t*>(buffer.data()));
     return buffer.toHex();
 }
 
@@ -47,52 +47,52 @@ QString Core::username()
 {
     QByteArray name;
     name.resize(TOX_MAX_NAME_LENGTH);
-    int size = tox_get_self_name(m_tox, name.data());
+    int size = tox_get_self_name(m_tox, reinterpret_cast<uint8_t*>(name.data()));
     return QString::fromUtf8(name, size);
 }
 
-void Core::m_friendrequest(uint8_t *public_key, uint8_t *data, uint16_t length, void* userdata)
+void Core::m_friendrequest(Tox */*tox*/, uint8_t *public_key, uint8_t *data, uint16_t length, void* userdata)
 {
     Core* _this = (Core*)userdata;
-    QString message = QString::fromUtf8(data, length);
+    QString message = QString::fromUtf8(reinterpret_cast<char*>(data), length);
     QString key = QByteArray(reinterpret_cast<char*>(public_key), CLIENT_ID_SIZE).toHex();
     emit _this->onfriendRequested(key, message);
 }
 
-void Core::m_friendmessage(Tox *m, int friendnumber, uint8_t *message, uint16_t length, void* userdata)
+void Core::m_friendmessage(Tox */*tox*/, int friendnumber, uint8_t *message, uint16_t length, void* userdata)
 {
-    Core* _this = (Core*)userdata;
-    QString qmessage = QString::fromUtf8(message, length);
+    Core* _this = static_cast<Core*>(userdata);
+    QString qmessage = QString::fromUtf8(reinterpret_cast<char*>(message), length);
     emit _this->onfriendMessaged(friendnumber, qmessage);
 }
 
-void Core::m_friendnamechange(Tox *m, int friendnumber, uint8_t *newname, uint16_t length, void* userdata)
+void Core::m_friendnamechange(Tox */*tox*/, int friendnumber, uint8_t *newname, uint16_t length, void* userdata)
 {
-    Core* _this = (Core*)userdata;
-    QString qname = QString::fromUtf8(newname, length);
+    Core* _this = static_cast<Core*>(userdata);
+    QString qname = QString::fromUtf8(reinterpret_cast<char*>(newname), length);
 
     emit _this->onfriendNameChanged(friendnumber, qname);
 }
 
-void Core::m_frienduserstatuschange(Tox *m, int friendnumber, TOX_USERSTATUS kind, void* userdata)
+void Core::m_frienduserstatuschange(Tox */*tox*/, int32_t friendnumber, uint8_t kind, void* userdata)
 {
     Core* _this = (Core*)userdata;
-    emit _this->onfriendStatusChanged(friendnumber, kind);
+    emit _this->onfriendStatusChanged(friendnumber, static_cast<TOX_USERSTATUS>(kind));
 }
 
-void Core::m_friendstatusnotechange(Tox *m, int friendnumber, uint8_t *status, uint16_t length, void* userdata)
+void Core::m_friendstatusnotechange(Tox */*tox*/, int friendnumber, uint8_t *status, uint16_t length, void* userdata)
 {
     Core* _this = (Core*)userdata;
-    QString message = QString::fromUtf8(status, length);
+    QString message = QString::fromUtf8(reinterpret_cast<char*>(status), length);
     emit _this->onfriendStatusTextChanged(friendnumber, message);
 }
 
-void Core::m_friendstatuschange(Tox *m, int friendnumber, uint8_t status, void* userdata)
+void Core::m_friendstatuschange(Tox */*tox*/, int friendnumber, uint8_t status, void* userdata)
 {
     Core* _this = (Core*)userdata;
     emit _this->onfriendStatusChanged(friendnumber, (TOX_USERSTATUS)status);
 }
-void Core::m_groupinvite(Tox *tox, int friendnumber, uint8_t *group_public_key, void *userdata)
+void Core::m_groupinvite(Tox */*tox*/, int friendnumber, uint8_t *group_public_key, void *userdata)
 {
     Core* _this =(Core*)userdata;
     QString key = QByteArray(reinterpret_cast<char*>(group_public_key), CLIENT_ID_SIZE).toHex();
@@ -100,11 +100,11 @@ void Core::m_groupinvite(Tox *tox, int friendnumber, uint8_t *group_public_key, 
     emit _this->ongroupInvite(friendnumber, key);
 }
 
-void Core::m_groupmessage(Tox *tox, int groupnumber, int peernumber,
+void Core::m_groupmessage(Tox */*tox*/, int groupnumber, int peernumber,
                           uint8_t * message, uint16_t length, void *userdata)
 {
     Core* _this = (Core*)userdata;
-    QString msg = QString::fromUtf8(message, length);
+    QString msg = QString::fromUtf8(reinterpret_cast<char*>(message), length);
 
     emit _this->ongroupMessage(groupnumber, peernumber, msg);
 }
@@ -135,7 +135,7 @@ void Core::m_groupnamelistchanged(Tox *tox, int groupnumber, int peernumber,
     {
         QByteArray name;
         name.resize(TOX_MAX_NAME_LENGTH);
-        uint16_t length = tox_group_peername(tox, groupnumber, peernumber, name.data());
+        uint16_t length = tox_group_peername(tox, groupnumber, peernumber, reinterpret_cast<uint8_t*>(name.data()));
         QString peername = QString::fromUtf8(name.data(), length);
 
         emit _this->ongroupPeerNameChanged(groupnumber, peernumber, peername);
@@ -157,8 +157,10 @@ void Core::m_checkdhtconnection()
     }
 }
 
-void Core::addDHTServer(const QString &id, const QString ip, int port)
+void Core::addDHTServer(const QString &/*id*/, const QString /*ip*/, int /*port*/)
 {
+    //TODO
+
     /*IP_Port ipport;
     QStringList server_ip = ip.split(".");
 
@@ -225,13 +227,13 @@ void Core::stop()
 void Core::setuserUsername(const QString &name)
 {
     QByteArray tmp = name.toUtf8();
-    tox_set_name(m_tox, tmp.constData(),tmp.size());
+    tox_set_name(m_tox, reinterpret_cast<uint8_t*>(tmp.data()),tmp.size());
 }
 
 void Core::setuserStatusnote(const QString &note)
 {
     QByteArray tmp = note.toUtf8();
-    tox_set_status_message(m_tox, tmp.constData(), tmp.size());
+    tox_set_status_message(m_tox, reinterpret_cast<uint8_t*>(tmp.data()), tmp.size());
 }
 
 void Core::acceptFriendRequest(const QString &key)
@@ -256,8 +258,10 @@ void Core::sendFriendRequest(const QString &address, const QString &message)
 {
     QString key = address.left(crypto_box_PUBLICKEYBYTES);
     QByteArray akey = QByteArray::fromHex(address.toLower().toLatin1());
-    QByteArray msg = message.isEmpty() ? QString("Please add me to your contact list").toUtf8() : message.toUtf8();
-    int newfriendid = tox_add_friend(m_tox, akey.data(), msg.data(), msg.size());
+    QByteArray msg = message.isEmpty() ?
+                QString("Please add me to your contact list").toUtf8() : message.toUtf8();
+    int newfriendid = tox_add_friend(m_tox, reinterpret_cast<uint8_t*>(akey.data()),
+                                     reinterpret_cast<uint8_t*>(msg.data()), msg.size());
 
     if (newfriendid >= 0) {
         emit onfriendAdded(newfriendid, key);
@@ -269,7 +273,7 @@ void Core::sendFriendRequest(const QString &address, const QString &message)
 void Core::sendFriendMessge(int friendnumber, const QString &message)
 {
     QByteArray ret = message.toUtf8();
-    tox_send_message(m_tox, friendnumber, ret.constData(), ret.size());
+    tox_send_message(m_tox, friendnumber, reinterpret_cast<uint8_t*>(ret.data()), ret.size());
 }
 
 void Core::deleteFriend(int friendnumber)
@@ -283,17 +287,17 @@ int Core::addGroupchat()
 
 }
 
-int Core::delGroupchat(int groupnumber)
+int Core::delGroupchat(int /*groupnumber*/)
 {
 
 }
 
-int Core::joinGroup(int friendnumber, QString& friend_group_public_key)
+int Core::joinGroup(int /*friendnumber*/, QString& /*friend_group_public_key*/)
 {
 
 }
 
-int Core::inviteFriend(int friendnumber, int groupnumber)
+int Core::inviteFriend(int /*friendnumber*/, int /*groupnumber*/)
 {
 
 }

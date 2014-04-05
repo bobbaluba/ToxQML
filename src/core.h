@@ -49,12 +49,12 @@ private:
 
     Tox *m_tox;
 
-    static void m_friendrequest(uint8_t *public_key, uint8_t  *data, uint16_t length, void *userdata);
-    static void m_friendmessage(Tox *m, int friendnumber, uint8_t *message, uint16_t length, void *userdata);
-    static void m_friendnamechange(Tox *m, int friendnumber, uint8_t *newname, uint16_t length, void *userdata);
-    static void m_frienduserstatuschange(Tox *m, int friendnumber,TOX_USERSTATUS kind, void *userdata);
-    static void m_friendstatusnotechange(Tox *m, int friendnumber, uint8_t *status, uint16_t length, void *userdata);
-    static void m_friendstatuschange(Tox *m, int friendnumber, uint8_t status, void* userdata);
+    static void m_friendrequest(Tox *tox, uint8_t *public_key, uint8_t  *data, uint16_t length, void *userdata);
+    static void m_friendmessage(Tox *tox, int friendnumber, uint8_t *message, uint16_t length, void *userdata);
+    static void m_friendnamechange(Tox *tox, int friendnumber, uint8_t *newname, uint16_t length, void *userdata);
+    static void m_frienduserstatuschange(Tox *tox, int friendnumber, uint8_t kind, void *userdata);
+    static void m_friendstatusnotechange(Tox *tox, int friendnumber, uint8_t *status, uint16_t length, void *userdata);
+    static void m_friendstatuschange(Tox *tox, int friendnumber, uint8_t status, void* userdata);
 
     static void m_groupinvite(Tox *tox, int friendnumber, uint8_t *group_public_key, void *userdata);
 
