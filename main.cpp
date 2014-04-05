@@ -31,17 +31,15 @@ int main(int argc, char *argv[])
     QGuiApplication a(argc, argv);
 
     //Think this should be moved into CoreModel
-    Core *core = new Core();
-    CoreModel *model = new CoreModel(core);
-    core->start();
+    Core core;
+    CoreModel model(&core);
+    core.start();
 
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("CoreModel", model);
+    engine.rootContext()->setContextProperty("CoreModel", &model);
     engine.load(QUrl("qrc:/qml/main.qml"));
 
     int ret = a.exec();
-    core->stop();
-    delete model;
-    delete core;
+    core.stop();
     return ret;
 }
