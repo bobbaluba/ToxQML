@@ -249,7 +249,7 @@ void Core::setuserUsername(const QString &name)
     cString tmp = fromQString(name);
     tox_set_name(m_tox, tmp.data,tmp.size);
 
-    delete tmp.data;
+    delete[] tmp.data;
 }
 
 void Core::setuserStatusnote(const QString &note)
@@ -294,14 +294,14 @@ void Core::sendFriendRequest(const QString &address, const QString &message)
 
     }
 
-    delete tmp.data;
+    delete[] tmp.data;
 }
 
 void Core::sendFriendMessge(int friendnumber, const QString &message)
 {
     cString ret = fromQString(message);
     tox_send_message(m_tox, friendnumber, ret.data, ret.size);
-    delete ret.data;
+    delete[] ret.data;
 }
 
 void Core::deleteFriend(int friendnumber)
