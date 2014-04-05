@@ -27,7 +27,8 @@
 //TODO: Clean up and move settings out of here and into a independet object
 
 Core::Core(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    m_connected(false)
 {
     eventtimer = new QTimer(this);
 }
@@ -37,6 +38,7 @@ QString Core::userId()
     uint8_t* data = new uint8_t[TOX_FRIEND_ADDRESS_SIZE];
     tox_get_address(m_tox, data);
     QByteArray array(reinterpret_cast<char*>(data), TOX_FRIEND_ADDRESS_SIZE);
+    delete[] data;
     return array.toHex();
 }
 
@@ -47,7 +49,7 @@ QString Core::username()
 
     QString ret = toQString(name, size);
 
-    delete name;
+    delete[] name;
     return ret;
 }
 
