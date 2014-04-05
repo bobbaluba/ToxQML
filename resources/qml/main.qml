@@ -86,7 +86,7 @@ ApplicationWindow {
             anchors.left: useravatar.right
             anchors.bottom: useravatar.verticalCenter
             anchors.right: connectionstatusicon.left
-            text: CoreModel.user.username == "" ? "New user" : CoreModel.user.username
+            text: CoreModel.user.username === "" ? "New user" : CoreModel.user.username
             font.pointSize: 13
             color: palette.windowText
             elide: Text.ElideRight
