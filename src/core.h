@@ -43,20 +43,11 @@ public:
     bool connected(){return m_connected;}
 
 private:
-
-    struct cString{
-        uint8_t *data;
-        uint16_t size;
-    };
-
     QTimer eventtimer;
     bool m_connected;
     QString m_id;
 
     Tox *m_tox;
-
-    static QString toQString(uint8_t *data, uint16_t length = -1);
-    static cString fromQString(const QString& string);
 
     static void m_friendrequest(uint8_t *public_key, uint8_t  *data, uint16_t length, void *userdata);
     static void m_friendmessage(Tox *m, int friendnumber, uint8_t *message, uint16_t length, void *userdata);
