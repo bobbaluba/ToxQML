@@ -85,7 +85,7 @@ void CoreModel::onfriendRequest(const QString& key, const QString& message)
 
 void CoreModel::onfriendMessage(int friendnumber, const QString& message)
 {
-    m_friendmap[friendnumber]->messageRecived(message);
+    m_friendmap[friendnumber]->messageReceived(message);
 }
 
 void CoreModel::onfriendNameChanged(int friendnumber, const QString& name)

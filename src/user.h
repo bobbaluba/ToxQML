@@ -57,7 +57,7 @@ signals:
     void statusChanged();
     void statusNoteChanged();
     void userIdChanged();
-    void recivedMessage(const QString& message);
+    void receivedMessage(const QString& message);
     void chatlogChanged();
 
     void m_sendmessage(int id, const QString &message);
@@ -67,10 +67,10 @@ public slots:
     void setstatus(StatusWrapper::Status status);
     void setstatusNote(const QString& note);
     void setchatlog(const QString& data);
-    void m_recivedMessage(const QString& message);
+    void m_receivedMessage(const QString& message);
 
     void sendMessage(const QString& message);
-    void messageRecived(const QString &message);
+    void messageReceived(const QString &message);
     void deleteMe();
 };
 

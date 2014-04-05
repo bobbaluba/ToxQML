@@ -54,9 +54,9 @@ void UserItem::setchatlog(const QString& data)
     emit chatlogChanged();
 }
 
-void UserItem::m_recivedMessage(const QString &message)
+void UserItem::m_receivedMessage(const QString &message)
 {
-    emit recivedMessage(message);
+    emit receivedMessage(message);
 }
 
 void UserItem::sendMessage(const QString &message)
@@ -68,7 +68,7 @@ void UserItem::sendMessage(const QString &message)
     emit chatlogChanged();
 }
 
-void UserItem::messageRecived(const QString &message)
+void UserItem::messageReceived(const QString &message)
 {
     m_chatlog.append(username() + ": ");
     m_chatlog.append(message);
