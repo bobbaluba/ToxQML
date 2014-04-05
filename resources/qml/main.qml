@@ -29,7 +29,7 @@ ApplicationWindow {
         }
     }
 
-    FriendRequesetWindow {
+    FriendRequestWindow {
         id: friendrequesetrecivedwindow
         onAcceptClicked: {
             CoreModel.acceptFriendRequest(request)
