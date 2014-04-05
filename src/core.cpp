@@ -244,6 +244,7 @@ void Core::stop()
     config.write(cfg);
     config.close();
 #endif
+    tox_kill(m_tox);
 }
 
 void Core::setuserUsername(const QString &name)
