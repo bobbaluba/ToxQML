@@ -28,9 +28,11 @@
 
 Core::Core(QObject *parent) :
     QObject(parent),
-    m_connected(false)
+    eventtimer(new QTimer(this)),
+    m_connected(false),
+    m_id(),
+    m_tox(nullptr)
 {
-    eventtimer = new QTimer(this);
 }
 
 QString Core::userId()
