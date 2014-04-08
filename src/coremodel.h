@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QHash>
 #include "statuswrapper.h"
-#include "user.h"
+#include "friend.h"
 #include "core.h"
 
 class Request : public QObject
@@ -60,8 +60,8 @@ public:
     Q_INVOKABLE void sendFriendMessage(int id, const QString& message);
 
 private:
-    UserItem* m_user;
-    QHash<int, UserItem*> m_friendmap; //used- for looking up based on core friendnumber
+    Friend* m_user;
+    QHash<int, Friend*> m_friendmap; //used- for looking up based on core friendnumber
     QList<QObject*> m_friendlist; //the list qml cares about.
     QList<QObject*> m_friendrequests;
     bool m_connected;

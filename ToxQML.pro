@@ -50,8 +50,8 @@ SOURCES += main.cpp \
     src/core.cpp \
     src/coremodel.cpp \
     src/settings.cpp \
-    src/user.cpp \
-    src/group.cpp
+    src/group.cpp \
+    src/friend.cpp
 
 
 HEADERS  += \
@@ -59,8 +59,8 @@ HEADERS  += \
     src/coremodel.h \
     src/statuswrapper.h \
     src/settings.h \
-    src/user.h \
-    src/group.h
+    src/group.h \
+    src/friend.h
 
 OTHER_FILES += \
     resources/qml/RequestFriendWindow.qml \

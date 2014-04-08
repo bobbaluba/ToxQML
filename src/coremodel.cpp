@@ -27,7 +27,7 @@ CoreModel::CoreModel(Core *core, QObject *parent) :
     QObject(parent)
 {
     m_core = core;
-    m_user = new UserItem(-1);
+    m_user = new Friend(-1);
     m_user->setusername("Hello");
     m_user->setstatus(StatusWrapper::Online);
     connect(m_core, &Core::onfriendAdded, this, &CoreModel::onfriendAdded);
@@ -50,21 +50,21 @@ void CoreModel::onConnectedChanged()
 
 void CoreModel::onfriendAdded(int friendnumber, const QString &key)
 {
-    UserItem *newfriend = new UserItem(friendnumber);
+    Friend *newfriend = new Friend(friendnumber);
     newfriend->setuserId(key);
     newfriend->setusername("???");
     newfriend->setstatus(StatusWrapper::Status::Offline);
     m_friendlist.append(newfriend);
     m_friendmap[friendnumber] = newfriend;
-    connect(newfriend, &UserItem::m_sendmessage, this, &CoreModel::sendFriendMessage);
-    connect(newfriend, &UserItem::deleteFriend, this, &CoreModel::onfriendDelete);
+    connect(newfriend, &Friend::m_sendmessage, this, &CoreModel::sendFriendMessage);
+    connect(newfriend, &Friend::deleteFriend, this, &CoreModel::onfriendDelete);
 
     emit friendsChanged();
 }
 
 void CoreModel::onfriendDelete(int friendnumber)
 {
-    UserItem* tmp = m_friendmap[friendnumber];
+    Friend* tmp = m_friendmap[friendnumber];
     m_friendlist.removeAll(tmp);
     m_friendmap.remove(friendnumber);
     delete tmp;

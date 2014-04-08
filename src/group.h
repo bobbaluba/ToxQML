@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QList>
 
-#include "user.h"
+#include "friend.h"
 
 class Group : public QObject
 {
@@ -13,7 +13,7 @@ public:
     explicit Group(QObject *parent = 0);
 private:
     int m_id;
-    QList<UserItem*> m_useringroup;
+    QList<Friend*> m_useringroup;
 signals:
 
 public slots:
