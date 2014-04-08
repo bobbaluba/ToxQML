@@ -6,7 +6,7 @@
 
 QT       += core gui widgets quick
 
-TARGET = Tox-Gui
+TARGET = ToxQML
 
 TEMPLATE = app
 
