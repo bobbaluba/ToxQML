@@ -18,9 +18,6 @@
 */
 
 #include "core.h"
-#include <QFile> //This should not be here
-#include <QDir> //or this
-#include <QStandardPaths> // or this
 
 //#define ENABLEPERSISTENT
 
