@@ -5,26 +5,31 @@ import QtQuick.Window 2.0
 
 Window{
     signal clickedSend(string key, string message)
-    id: root
+    id: requestFriendWindow
     width: 400
     height: 200
     modality: Qt.WindowModal
+    title: "Add friend"
+    onVisibleChanged: {
+        friendToxId.text = "";
+        friendRequestMessage.text = "Please add me to your friend list";
+    }
     
     ColumnLayout{
         anchors.fill: parent
         anchors.margins: 8
         spacing: 8
         TextField{
-            id: newfriendid
+            id: friendToxId
             Layout.fillWidth: true
             placeholderText: "Friend Tox ID"
         }
         Label{
-            text: "Message you want to send with the request"
+            text: "Message:"
         }
         
         TextArea{
-            id: newfriendmessage
+            id: friendRequestMessage
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
@@ -32,7 +37,7 @@ Window{
             Button{
                 text: "Cancel"
                 onClicked: {
-                    root.visible = false;
+                    requestFriendWindow.visible = false;
                 }
             }
             Item{
@@ -42,10 +47,8 @@ Window{
             Button{
                 text: "Send request"
                 onClicked: {
-                    clickedSend(newfriendid.text, newfriendmessage.text);
-                    root.visible = false;
-                    newfriendid.text = "";
-                    newfriendmessage.text = "";
+                    clickedSend(friendToxId.text, friendRequestMessage.text);
+                    requestFriendWindow.visible = false;
                 }
             }
         }
