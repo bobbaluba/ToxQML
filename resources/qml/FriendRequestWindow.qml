@@ -6,7 +6,7 @@ import QtQuick.Window 2.0
 Window{
     signal acceptClicked(var request)
     property var request
-    id: root
+    id: friendRequestWindow
 
     width: 400
     height: 200
@@ -15,13 +15,13 @@ Window{
         anchors.fill: parent
         anchors.margins: 6
         Label{
-            text: "You haved recived a friend request from a user with this id"
+            text: "You have received a friend request from someone with this Tox ID"
         }
         TextField{
             Layout.fillWidth: true
 
             id: friendrequestid
-            text: typeof request == "undefined" ? "" : request.key
+            text: typeof request == "undefined" ? "" : request.toxId
             readOnly: true
         }
         Label{
@@ -40,7 +40,7 @@ Window{
                 text: "Deny"
                 
                 onClicked:{
-                    root.visible = false
+                    friendRequestWindow.visible = false
                 }
             }
             Item{
@@ -52,7 +52,7 @@ Window{
                 
                 onClicked: {
                     acceptClicked(request)
-                    root.visible = false
+                    friendRequestWindow.visible = false
                 }
             }
         }

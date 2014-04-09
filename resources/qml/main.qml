@@ -25,7 +25,7 @@ ApplicationWindow {
     RequestFriendWindow {
         id: newfriendrequestwindow
         onClickedSend: {
-            CoreModel.sendFriendRequest(key, message);
+            CoreModel.sendFriendRequest(toxId, message);
         }
     }
 

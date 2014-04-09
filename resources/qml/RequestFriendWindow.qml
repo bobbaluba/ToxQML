@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Window 2.0
 
 Window{
-    signal clickedSend(string key, string message)
+    signal clickedSend(string toxId, string message)
     id: requestFriendWindow
     width: 400
     height: 200
