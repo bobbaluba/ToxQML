@@ -18,9 +18,8 @@ Window{
             text: "You have received a friend request from someone with this Tox ID"
         }
         TextField{
+            id: friendRequestToxId
             Layout.fillWidth: true
-
-            id: friendrequestid
             text: typeof request == "undefined" ? "" : request.toxId
             readOnly: true
         }
@@ -28,9 +27,9 @@ Window{
             text: "Here is the accompanying message"
         }
         TextArea{
+            id: friendRequestMessage
             Layout.fillHeight: true
             Layout.fillWidth: true
-            id: friendrequestmessage
             text: typeof request == "undefined" ? "" :request.message
             readOnly: true
         }

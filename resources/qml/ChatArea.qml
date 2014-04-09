@@ -6,45 +6,40 @@ import QtQuick.Window 2.0
 Item{
     property var friend
 
-    SystemPalette {
-        id: palette2
-        colorGroup: SystemPalette.Active
-    }
-
     Rectangle{
         clip: true
-        id: chatviewport
+        id: chatViewport
         anchors.margins: 4
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.bottom: textviewport.top
+        anchors.bottom: textViewport.top
         border.width: 1
-        border.color: disabledpalette.highlight
+        border.color: disabledPalette.highlight
         radius: 3
         Flickable{
-            id: chatscroller
+            id: chatScroller
             anchors.fill: parent
             anchors.margins: 6
-            contentHeight: chatmessages.contentHeight + chatmessages.font.pixelSize + 6
+            contentHeight: chatMessages.contentHeight + chatMessages.font.pixelSize + 6
             boundsBehavior: Flickable.StopAtBounds
             
             TextEdit{
-                id: chatmessages
+                id: chatMessages
                 anchors.fill: parent
                 color: palette.text
-                selectionColor: palette2.highlight
+                selectionColor: palette.highlight
                 wrapMode: TextEdit.WordWrap
                 selectByMouse: true
-                selectedTextColor: palette2.highlightedText
+                selectedTextColor: palette.highlightedText
 
                 text: typeof friend == "undefined" ? "" : friend.chatlog
                 
                 onTextChanged: {
-                    if (contentHeight > chatviewport.height) {
-                        chatscroller.contentY = contentHeight - chatviewport.height;
+                    if (contentHeight > chatViewport.height) {
+                        chatScroller.contentY = contentHeight - chatViewport.height;
                     } else {
-                        chatscroller.contentY = 0;
+                        chatScroller.contentY = 0;
                     }
                 }
                 
@@ -53,7 +48,7 @@ Item{
     }
 
     Rectangle{
-        id: textviewport
+        id: textViewport
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -62,12 +57,12 @@ Item{
         antialiasing: true
         radius: 3
         border.width: 1
-        border.color: disabledpalette.dark
+        border.color: disabledPalette.dark
         
         height: 50
         clip: true
         Flickable{
-            id: textscroller
+            id: textScroller
             anchors.fill: parent
             anchors.margins: 6
             contentHeight: chatinput.contentHeight + chatinput.font.pixelSize + 6
@@ -76,15 +71,15 @@ Item{
             TextEdit{
                 id: chatinput
                 anchors.fill: parent
-                color: palette2.text
-                selectionColor: palette2.highlight
-                selectedTextColor: palette2.highlightedText
+                color: palette.text
+                selectionColor: palette.highlight
+                selectedTextColor: palette.highlightedText
                 selectByMouse: true
                 onCursorPositionChanged: {
-                    if (cursorRectangle.y >= textscroller.contentY + textviewport.height - 1.5*cursorRectangle.height - 6) {
-                        textscroller.contentY = cursorRectangle.y - textviewport.height + cursorRectangle.height*1.5;
-                    } else if (cursorRectangle.y < textscroller.contentY) {
-                        textscroller.contentY = cursorRectangle.y;
+                    if (cursorRectangle.y >= textScroller.contentY + textViewport.height - 1.5*cursorRectangle.height - 6) {
+                        textScroller.contentY = cursorRectangle.y - textViewport.height + cursorRectangle.height*1.5;
+                    } else if (cursorRectangle.y < textScroller.contentY) {
+                        textScroller.contentY = cursorRectangle.y;
                     }
                 }
 
@@ -103,7 +98,7 @@ Item{
 
                 Text{
                     text: qsTr("Type your message here...")
-                    color: disabledpalette.text
+                    color: disabledPalette.text
                     visible: !parent.focus && !parent.text.length
                 }
             }

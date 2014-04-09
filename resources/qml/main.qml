@@ -5,7 +5,7 @@ import QtQuick.Window 2.0
 import QtQuick.Controls.Styles 1.0
 
 ApplicationWindow {
-    property var currentfriend
+    property var currentFriend
 
     id: root
     visible: true
@@ -17,28 +17,28 @@ ApplicationWindow {
 
         onFriendRequest: {
             var req = request;
-            friendrequesetrecivedwindow.request = req;
-            friendrequesetrecivedwindow.visible = true;
+            friendRequestReceivedWindow.request = req;
+            friendRequestReceivedWindow.visible = true;
         }
     }
 
     RequestFriendWindow {
-        id: newfriendrequestwindow
+        id: addFriendWindow
         onClickedSend: {
             CoreModel.sendFriendRequest(toxId, message);
         }
     }
 
     FriendRequestWindow {
-        id: friendrequesetrecivedwindow
+        id: friendRequestReceivedWindow
         onAcceptClicked: {
             CoreModel.acceptFriendRequest(request);
         }
     }
 
     Window {
-        id: showourtoxid
-        width: toxidtext.__contentWidth
+        id: ourToxIdWindow
+        width: toxIdText.__contentWidth
         height: 50
         minimumHeight: 50
         maximumHeight: 50
@@ -47,7 +47,7 @@ ApplicationWindow {
             anchors.fill: parent
             anchors.margins: 6
             TextField {
-                id: toxidtext
+                id: toxIdText
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -58,10 +58,10 @@ ApplicationWindow {
     }
 
     Rectangle {
-        id: ouruser
+        id: ourUser
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.right: friendslist.right
+        anchors.right: friendList.right
         height: 60
         color: palette.window
         Image {
@@ -76,7 +76,7 @@ ApplicationWindow {
                 anchors.fill: parent
 
                 onDoubleClicked: {
-                    showourtoxid.visible = true;
+                    ourToxIdWindow.visible = true;
                 }
             }
         }
@@ -178,7 +178,7 @@ ApplicationWindow {
         }
 
         SystemPalette {
-            id: disabledpalette
+            id: disabledPalette
             colorGroup: SystemPalette.Disabled
         }
 
@@ -195,10 +195,10 @@ ApplicationWindow {
     }
 
         TableView {
-            id: friendslist
+            id: friendList
 
-            anchors.top: ouruser.bottom
-            anchors.bottom: friendstoolbar.top
+            anchors.top: ourUser.bottom
+            anchors.bottom: friendsToolbar.top
             anchors.left: parent.left
 
             width: 230
@@ -225,11 +225,11 @@ ApplicationWindow {
             }
 
             Menu {
-                id: friendmenu
+                id: friendMenu
                 MenuItem {
                     text: "Delete"
                     onTriggered: {
-                        root.currentfriend.deleteMe()
+                        root.currentFriend.deleteMe()
                     }
                 }
             }
@@ -243,7 +243,7 @@ ApplicationWindow {
 
                 itemDelegate: Item {
                     Image {
-                        id: friendavatar
+                        id: friendAvatar
                         anchors.left: parent.left
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
@@ -254,11 +254,11 @@ ApplicationWindow {
 
                     Text {
                         id: name
-                        anchors.left: friendavatar.right
-                        anchors.bottom: friendavatar.verticalCenter
-                        anchors.right: statusicon.left
+                        anchors.left: friendAvatar.right
+                        anchors.bottom: friendAvatar.verticalCenter
+                        anchors.right: statusIcon.left
                         color: styleData.selected ? palette.highlightedText : palette.windowText
-                        text: friendslist.model[styleData.row].name
+                        text: friendList.model[styleData.row].name
                         font.pointSize: 13
                         elide: Text.ElideRight
                     }
@@ -266,7 +266,7 @@ ApplicationWindow {
                     Text {
                         anchors.top: name.bottom
                         anchors.left: name.left
-                        anchors.right: statusicon.left
+                        anchors.right: statusIcon.left
                         text: CoreModel.friends[styleData.row].statusMessage
                         color: name.color
                         font.pointSize: name.font.pointSize - 2
@@ -274,13 +274,13 @@ ApplicationWindow {
                     }
 
                     Image {
-                        id: statusicon
+                        id: statusIcon
                         anchors.margins: 6
                         antialiasing: true
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
                         source: statusList.get(
-                                    friendslist.model[styleData.row].status).iconSource
+                                    friendList.model[styleData.row].status).iconSource
                         width: 32
                         smooth: true
                         fillMode: Image.PreserveAspectFit
@@ -289,7 +289,7 @@ ApplicationWindow {
             }
 
             onCurrentRowChanged: {
-                currentfriend = model[currentRow];
+                currentFriend = model[currentRow];
             }
 
             MouseArea {
@@ -297,7 +297,7 @@ ApplicationWindow {
                 acceptedButtons: Qt.RightButton
                 onClicked: {
                     if (parent.currentRow >= 0) {
-                        friendmenu.__popup(mouseX + parent.x,
+                        friendMenu.__popup(mouseX + parent.x,
                                            mouseY + parent.y, -1);
                     }
                 }
@@ -308,7 +308,7 @@ ApplicationWindow {
         }
 
     Rectangle {
-        anchors.left: friendslist.right
+        anchors.left: friendList.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         color: Qt.darker(palette.window)
@@ -317,10 +317,10 @@ ApplicationWindow {
     }
 
     Item {
-        id: friendstoolbar
+        id: friendsToolbar
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        anchors.right: friendslist.right
+        anchors.right: friendList.right
         height: 50
 
         Rectangle {
@@ -347,7 +347,7 @@ ApplicationWindow {
                     parent.border.width = 0
                 }
                 onClicked: {
-                    newfriendrequestwindow.visible = true;
+                    addFriendWindow.visible = true;
                 }
             }
         }
@@ -376,18 +376,18 @@ ApplicationWindow {
                     parent.border.width = 0
                 }
                 onClicked: {
-                    newfriendrequestwindow.visible = true;
+                    addFriendWindow.visible = true;
                 }
             }
         }
     }
 
     ChatArea {
-        friend: currentfriend
+        friend: currentFriend
         id: chatviews
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.left: friendslist.right
+        anchors.left: friendList.right
         anchors.bottom: parent.bottom
     }
 }
