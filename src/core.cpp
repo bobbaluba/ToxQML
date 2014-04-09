@@ -237,10 +237,12 @@ void Core::acceptFriendRequest(const QString &key)
 {
 
     QByteArray akey = QByteArray::fromHex(key.toLower().toLatin1());
-    uint8_t *ckey = new uint8_t[CLIENT_ID_SIZE];
+    if(akey.size() != CLIENT_ID_SIZE){
+        //Fail
+        return;
+    }
 
-    memcpy(ckey, reinterpret_cast<uint8_t*>(akey.data()), akey.size());
-    int newfriendid = tox_add_friend_norequest(m_tox, ckey);
+    int newfriendid = tox_add_friend_norequest(m_tox, reinterpret_cast<uint8_t*>(akey.data()));
 
     if (newfriendid == -1)
     {
