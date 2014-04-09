@@ -24,28 +24,28 @@ Friend::Friend(int friendNumber, QObject *parent) : QObject(parent)
     m_friendNumber = friendNumber;
 }
 
-void Friend::setusername(const QString &username)
+void Friend::setName(const QString &name)
 {
-    m_username = username;
-    emit usernameChanged();
+    m_name = name;
+    emit nameChanged();
 }
 
-void Friend::setuserId(const QString &public_key)
+void Friend::setToxId(const QString &toxId)
 {
-    m_userid = public_key;
-    emit userIdChanged();
+    m_toxId = toxId;
+    emit toxIdChanged();
 }
 
-void Friend::setstatus(StatusWrapper::Status status)
+void Friend::setStatus(StatusWrapper::Status status)
 {
     m_status = status;
     emit statusChanged();
 }
 
-void Friend::setstatusNote(const QString &note)
+void Friend::setStatusMessage(const QString &note)
 {
-    m_statusnote = note;
-    emit statusNoteChanged();
+    m_statusMessage = note;
+    emit statusMessageChanged();
 }
 
 void Friend::setchatlog(const QString& data)
@@ -70,7 +70,7 @@ void Friend::sendMessage(const QString &message)
 
 void Friend::messageReceived(const QString &message)
 {
-    m_chatlog.append(username() + ": ");
+    m_chatlog.append(name() + ": ");
     m_chatlog.append(message);
     m_chatlog.append("\n");
     emit chatlogChanged();

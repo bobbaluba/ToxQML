@@ -17,7 +17,7 @@ Window{
         TextField{
             id: newfriendid
             Layout.fillWidth: true
-            placeholderText: "Friend id"
+            placeholderText: "Friend Tox ID"
         }
         Label{
             text: "Message you want to send with the request"

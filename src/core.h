@@ -24,17 +24,11 @@
 #include <QObject>
 #include <QTimer>
 #include "tox.h"
-//#include "Messenger.h"
 #include "DHT.h"
 
 class Core : public QObject
 {
     Q_OBJECT
-
-    //Shouldn't really use Q_PROPERTY on the core, not very usfull really
-    /*Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
-    Q_PROPERTY(QString userId READ userId)
-    Q_PROPERTY(QString username READ username)*/
 
 public:
     explicit Core(QObject *parent = 0);
@@ -45,7 +39,6 @@ public:
 private:
     QTimer eventtimer;
     bool m_connected;
-    QString m_id;
 
     Tox *m_tox;
 
@@ -53,7 +46,7 @@ private:
     static void m_friendmessage(Tox *tox, int friendnumber, uint8_t *message, uint16_t length, void *userdata);
     static void m_friendnamechange(Tox *tox, int friendnumber, uint8_t *newname, uint16_t length, void *userdata);
     static void m_frienduserstatuschange(Tox *tox, int friendnumber, uint8_t kind, void *userdata);
-    static void m_friendstatusnotechange(Tox *tox, int friendnumber, uint8_t *status, uint16_t length, void *userdata);
+    static void m_friendstatusmessagechange(Tox *tox, int friendnumber, uint8_t *status, uint16_t length, void *userdata);
     static void m_friendstatuschange(Tox *tox, int friendnumber, uint8_t status, void* userdata);
 
     static void m_groupinvite(Tox *tox, int friendnumber, uint8_t *group_public_key, void *userdata);

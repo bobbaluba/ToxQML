@@ -28,14 +28,14 @@ CoreModel::CoreModel(Core *core, QObject *parent) :
 {
     m_core = core;
     m_user = new Friend(-1);
-    m_user->setusername("Hello");
-    m_user->setstatus(StatusWrapper::Online);
+    m_user->setName("Hello");
+    m_user->setStatus(StatusWrapper::Online);
     connect(m_core, &Core::onfriendAdded, this, &CoreModel::onfriendAdded);
     connect(m_core, &Core::onfriendRequested, this, &CoreModel::onfriendRequest);
     connect(m_core, &Core::onfriendMessaged, this, &CoreModel::onfriendMessage);
     connect(m_core, &Core::onfriendNameChanged, this, &CoreModel::onfriendNameChanged);
     connect(m_core, &Core::onfriendStatusChanged, this, &CoreModel::onfriendStatusChanged);
-    connect(m_core, &Core::onfriendStatusTextChanged, this, &CoreModel::onfriendStatusNoteChanged);
+    connect(m_core, &Core::onfriendStatusTextChanged, this, &CoreModel::onfriendStatusMessageChanged);
 
     connect(m_core, &Core::connectedChanged, this, &CoreModel::onConnectedChanged);
 
@@ -51,9 +51,9 @@ void CoreModel::onConnectedChanged()
 void CoreModel::onfriendAdded(int friendnumber, const QString &key)
 {
     Friend *newfriend = new Friend(friendnumber);
-    newfriend->setuserId(key);
-    newfriend->setusername("???");
-    newfriend->setstatus(StatusWrapper::Status::Offline);
+    newfriend->setToxId(key);
+    newfriend->setName("???");
+    newfriend->setStatus(StatusWrapper::Status::Offline);
     m_friendlist.append(newfriend);
     m_friendmap[friendnumber] = newfriend;
     connect(newfriend, &Friend::m_sendmessage, this, &CoreModel::sendFriendMessage);
@@ -90,17 +90,17 @@ void CoreModel::onfriendMessage(int friendnumber, const QString& message)
 
 void CoreModel::onfriendNameChanged(int friendnumber, const QString& name)
 {
-    m_friendmap[friendnumber]->setusername(name);
+    m_friendmap[friendnumber]->setName(name);
 }
 
 void CoreModel::onfriendStatusChanged(int friendnumber, TOX_USERSTATUS status)
 {
-    m_friendmap[friendnumber]->setstatus((StatusWrapper::Status) status);
+    m_friendmap[friendnumber]->setStatus((StatusWrapper::Status) status);
 }
 
-void CoreModel::onfriendStatusNoteChanged(int friendnumber, const QString& note)
+void CoreModel::onfriendStatusMessageChanged(int friendnumber, const QString& message)
 {
-    m_friendmap[friendnumber]->setstatusNote(note);
+    m_friendmap[friendnumber]->setStatusMessage(message);
 }
 
 void CoreModel::acceptFriendRequest(Request *newfriend)
@@ -120,22 +120,22 @@ void CoreModel::sendFriendMessage(int id, const QString &message)
     m_core->sendMessage(id, message);
 }
 
-void CoreModel::setuserUsername(const QString &name)
+void CoreModel::setName(const QString &name)
 {
     m_core->setName(name);
-    m_user->setusername(name);
+    m_user->setName(name);
     emit userChanged();
 }
 
-void CoreModel::setuserStatusnote(const QString &note)
+void CoreModel::setStatusMessage(const QString &note)
 {
     m_core->setStatusMessage(note);
-    m_user->setstatusNote(note);
+    m_user->setStatusMessage(note);
     emit userChanged();
 }
 
 void CoreModel::coreStarted()
 {
-    m_user->setuserId(m_core->toxId());
-    m_user->setusername(m_core->name());
+    m_user->setToxId(m_core->toxId());
+    m_user->setName(m_core->name());
 }

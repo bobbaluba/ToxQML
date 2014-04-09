@@ -37,8 +37,8 @@ ApplicationWindow {
     }
 
     Window {
-        id: showouruserid
-        width: userid.__contentWidth
+        id: showourtoxid
+        width: toxidtext.__contentWidth
         height: 50
         minimumHeight: 50
         maximumHeight: 50
@@ -47,11 +47,11 @@ ApplicationWindow {
             anchors.fill: parent
             anchors.margins: 6
             TextField {
-                id: userid
+                id: toxidtext
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.right: parent.right
-                text: CoreModel.user.userId
+                text: CoreModel.user.toxId
                 readOnly: true
             }
         }
@@ -76,30 +76,30 @@ ApplicationWindow {
                 anchors.fill: parent
 
                 onDoubleClicked: {
-                    showouruserid.visible = true
+                    showourtoxid.visible = true
                 }
             }
         }
 
         Text {
-            id: usernametext
+            id: nametext
             anchors.left: useravatar.right
             anchors.bottom: useravatar.verticalCenter
             anchors.right: connectionstatusicon.left
-            text: CoreModel.user.username === "" ? "New user" : CoreModel.user.username
+            text: CoreModel.user.name === "" ? "New user" : CoreModel.user.name
             font.pointSize: 13
             color: palette.windowText
             elide: Text.ElideRight
 
             TextField {
-                id: editusername
+                id: editname
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
                 visible: false
                 text: parent.text
                 onAccepted: {
-                    CoreModel.setuserUsername(text)
+                    CoreModel.setName(text)
                     visible = false
                 }
 
@@ -120,21 +120,21 @@ ApplicationWindow {
                 anchors.fill: parent
 
                 onDoubleClicked: {
-                    editusername.focus = true
-                    editusername.selectAll()
-                    editusername.visible = true
+                    editname.focus = true
+                    editname.selectAll()
+                    editname.visible = true
                 }
             }
         }
 
         Text {
-            id: userstatusmessage
-            anchors.top: usernametext.bottom
-            anchors.left: usernametext.left
-            anchors.right: usernametext.right
-            text: CoreModel.user.statusNote ? CoreModel.user.statusNote : "Online"
-            color: usernametext.color
-            font.pointSize: usernametext.font.pointSize - 2
+            id: statusmessage
+            anchors.top: nametext.bottom
+            anchors.left: nametext.left
+            anchors.right: nametext.right
+            text: CoreModel.user.statusMessage ? CoreModel.user.statusMessage : "Online"
+            color: nametext.color
+            font.pointSize: nametext.font.pointSize - 2
             elide: Text.ElideRight
 
             TextField {
@@ -142,9 +142,9 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 visible: false
-                text: userstatusmessage.text
+                text: statusmessage.text
                 onAccepted: {
-                    CoreModel.setuserStatusnote(text)
+                    CoreModel.setStatusMessage(text)
 
                     visible = false
                 }
@@ -253,24 +253,23 @@ ApplicationWindow {
                     }
 
                     Text {
-                        id: username
+                        id: name
                         anchors.left: friendavatar.right
                         anchors.bottom: friendavatar.verticalCenter
                         anchors.right: statusicon.left
                         color: styleData.selected ? palette.highlightedText : palette.windowText
-                        text: friendslist.model[styleData.row].username
+                        text: friendslist.model[styleData.row].name
                         font.pointSize: 13
                         elide: Text.ElideRight
                     }
 
                     Text {
-                        id: status
-                        anchors.top: username.bottom
-                        anchors.left: username.left
+                        anchors.top: name.bottom
+                        anchors.left: name.left
                         anchors.right: statusicon.left
-                        text: CoreModel.friends[styleData.row].statusNote
-                        color: username.color
-                        font.pointSize: username.font.pointSize - 2
+                        text: CoreModel.friends[styleData.row].statusMessage
+                        color: name.color
+                        font.pointSize: name.font.pointSize - 2
                         elide: Text.ElideRight
                     }
 

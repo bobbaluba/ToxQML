@@ -26,37 +26,39 @@ class Friend : public QObject
 {
 
     Q_OBJECT
-    Q_PROPERTY(QString username READ username NOTIFY usernameChanged)
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(StatusWrapper::Status status READ status NOTIFY statusChanged)
-    Q_PROPERTY(QString statusNote READ statusNote NOTIFY statusNoteChanged)
-    Q_PROPERTY(QString userId READ userId NOTIFY userIdChanged)
+    Q_PROPERTY(QString statusMessage READ statusMessage NOTIFY statusMessageChanged)
+    Q_PROPERTY(QString toxId READ toxId NOTIFY toxIdChanged)
     Q_PROPERTY(QString chatlog READ chatlog WRITE setchatlog NOTIFY chatlogChanged)
 
 public:
     Friend(int friendNumber, QObject *parent = 0);
 
-    QString username(){return m_username;}
+    QString name(){return m_name;}
     StatusWrapper::Status status(){return m_status;}
-    QString statusNote(){return m_statusnote;}
-    QString userId(){return m_userid;}
+    QString statusMessage(){return m_statusMessage;}
+    QString toxId(){return m_toxId;}
     QString chatlog(){return m_chatlog;}
 
-    void setusername(const QString& username);
-    void setuserId(const QString& public_key);
+    void setName(const QString& name);
+    void setToxId(const QString& toxId);
 private:
-    QString m_username;
+    //I dont like you
+    QString m_name;
     StatusWrapper::Status m_status;
-    QString m_statusnote;
-    QString m_userid;
+    QString m_statusMessage;
+    QString m_toxId;
     QString m_chatlog;
 
-    int m_friendNumber; //I dont like you
+    int m_friendNumber; //I like you
 
 signals:
-    void usernameChanged();
+    void nameChanged();
     void statusChanged();
-    void statusNoteChanged();
-    void userIdChanged();
+    void statusMessageChanged();
+    void toxIdChanged();
+
     void receivedMessage(const QString& message);
     void chatlogChanged();
 
@@ -64,8 +66,8 @@ signals:
     void deleteFriend(int id);
 
 public slots:
-    void setstatus(StatusWrapper::Status status);
-    void setstatusNote(const QString& note);
+    void setStatus(StatusWrapper::Status status);
+    void setStatusMessage(const QString& note);
     void setchatlog(const QString& data);
     void m_receivedMessage(const QString& message);
 

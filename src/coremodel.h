@@ -84,11 +84,11 @@ public slots:
     void onfriendMessage(int friendnumber, const QString& message);
     void onfriendNameChanged(int friendnumber, const QString& name);
     void onfriendStatusChanged(int friendnumber, TOX_USERSTATUS status);
-    void onfriendStatusNoteChanged(int friendnumber, const QString& name);
+    void onfriendStatusMessageChanged(int friendnumber, const QString& message);
     void acceptFriendRequest(Request *newfriend);
 
-    void setuserUsername(const QString& name);
-    void setuserStatusnote(const QString& note);
+    void setName(const QString& name);
+    void setStatusMessage(const QString& note);
 
     void coreStarted();
 };

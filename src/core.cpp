@@ -27,7 +27,6 @@ Core::Core(QObject *parent) :
     QObject(parent),
     eventtimer(this),
     m_connected(false),
-    m_id(),
     m_tox(nullptr)
 {
 }
@@ -77,7 +76,7 @@ void Core::m_frienduserstatuschange(Tox */*tox*/, int32_t friendnumber, uint8_t 
     emit _this->onfriendStatusChanged(friendnumber, static_cast<TOX_USERSTATUS>(kind));
 }
 
-void Core::m_friendstatusnotechange(Tox */*tox*/, int friendnumber, uint8_t *status, uint16_t length, void* userdata)
+void Core::m_friendstatusmessagechange(Tox */*tox*/, int friendnumber, uint8_t *status, uint16_t length, void* userdata)
 {
     Core* _this = (Core*)userdata;
     QString message = QString::fromUtf8(reinterpret_cast<char*>(status), length);
@@ -199,7 +198,7 @@ void Core::start()
     tox_callback_name_change(m_tox, &Core::m_friendnamechange, (void*)this);
     tox_callback_user_status(m_tox, &Core::m_frienduserstatuschange, (void*)this);
     tox_callback_connection_status(m_tox, &Core::m_friendstatuschange, (void*)this);
-    tox_callback_status_message(m_tox, &Core::m_friendstatusnotechange, (void*)this);
+    tox_callback_status_message(m_tox, &Core::m_friendstatusmessagechange, (void*)this);
     connect(&eventtimer, &QTimer::timeout, this, &Core::m_processevents);
     eventtimer.start(30);
 
