@@ -10,6 +10,7 @@ Window{
     height: 200
     modality: Qt.WindowModal
     title: "Add friend"
+    color: palette.window
     onVisibleChanged: {
         friendToxId.text = "";
         friendRequestMessage.text = "Please add me to your friend list";

@@ -7,9 +7,9 @@ Window{
     signal acceptClicked(var request)
     property var request
     id: friendRequestWindow
-
     width: 400
     height: 200
+    color: palette.window
 
     ColumnLayout{
         anchors.fill: parent
@@ -30,7 +30,7 @@ Window{
             id: friendRequestMessage
             Layout.fillHeight: true
             Layout.fillWidth: true
-            text: typeof request == "undefined" ? "" :request.message
+            text: typeof request == "undefined" ? "" : request.message
             readOnly: true
         }
         RowLayout{

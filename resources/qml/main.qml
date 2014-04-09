@@ -38,6 +38,7 @@ ApplicationWindow {
 
     Window {
         id: ourToxIdWindow
+        color: palette.window
         width: toxIdText.__contentWidth
         height: 50
         minimumHeight: 50
