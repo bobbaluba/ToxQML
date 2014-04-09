@@ -31,23 +31,21 @@ Window{
         RowLayout{
             Button{
                 text: "Cancel"
-                
                 onClicked: {
-                    root.visible = false
+                    root.visible = false;
                 }
             }
             Item{
                 Layout.fillWidth: true
                 height: 20
-                
             }
             Button{
                 text: "Send request"
                 onClicked: {
-                    clickedSend(newfriendid.text, newfriendmessage.text)
-                    root.visible = false
-                    newfriendid.text = ""
-                    newfriendmessage.text = ""
+                    clickedSend(newfriendid.text, newfriendmessage.text);
+                    root.visible = false;
+                    newfriendid.text = "";
+                    newfriendmessage.text = "";
                 }
             }
         }

@@ -16,23 +16,23 @@ ApplicationWindow {
         target: CoreModel
 
         onFriendRequest: {
-            var req = request
-            friendrequesetrecivedwindow.request = req
-            friendrequesetrecivedwindow.visible = true
+            var req = request;
+            friendrequesetrecivedwindow.request = req;
+            friendrequesetrecivedwindow.visible = true;
         }
     }
 
     RequestFriendWindow {
         id: newfriendrequestwindow
         onClickedSend: {
-            CoreModel.sendFriendRequest(key, message)
+            CoreModel.sendFriendRequest(key, message);
         }
     }
 
     FriendRequestWindow {
         id: friendrequesetrecivedwindow
         onAcceptClicked: {
-            CoreModel.acceptFriendRequest(request)
+            CoreModel.acceptFriendRequest(request);
         }
     }
 
@@ -76,7 +76,7 @@ ApplicationWindow {
                 anchors.fill: parent
 
                 onDoubleClicked: {
-                    showourtoxid.visible = true
+                    showourtoxid.visible = true;
                 }
             }
         }
@@ -105,13 +105,13 @@ ApplicationWindow {
 
                 onFocusChanged: {
                     if (focus == false) {
-                        visible = false
+                        visible = false;
                     }
                 }
 
                 Keys.onPressed: {
                     if (event.key === Qt.Key_Escape) {
-                        focus = false
+                        focus = false;
                     }
                 }
             }
@@ -120,9 +120,9 @@ ApplicationWindow {
                 anchors.fill: parent
 
                 onDoubleClicked: {
-                    editname.focus = true
-                    editname.selectAll()
-                    editname.visible = true
+                    editname.focus = true;
+                    editname.selectAll();
+                    editname.visible = true;
                 }
             }
         }
@@ -165,9 +165,9 @@ ApplicationWindow {
             MouseArea {
                 anchors.fill: parent
                 onDoubleClicked: {
-                    edituserstatusmessage.focus = true
-                    edituserstatusmessage.selectAll()
-                    edituserstatusmessage.visible = true
+                    edituserstatusmessage.focus = true;
+                    edituserstatusmessage.selectAll();
+                    edituserstatusmessage.visible = true;
                 }
             }
         }
@@ -289,7 +289,7 @@ ApplicationWindow {
             }
 
             onCurrentRowChanged: {
-                currentfriend = model[currentRow]
+                currentfriend = model[currentRow];
             }
 
             MouseArea {
@@ -298,7 +298,7 @@ ApplicationWindow {
                 onClicked: {
                     if (parent.currentRow >= 0) {
                         friendmenu.__popup(mouseX + parent.x,
-                                           mouseY + parent.y, -1)
+                                           mouseY + parent.y, -1);
                     }
                 }
             }
@@ -347,7 +347,7 @@ ApplicationWindow {
                     parent.border.width = 0
                 }
                 onClicked: {
-                    newfriendrequestwindow.visible = true
+                    newfriendrequestwindow.visible = true;
                 }
             }
         }
@@ -376,7 +376,7 @@ ApplicationWindow {
                     parent.border.width = 0
                 }
                 onClicked: {
-                    newfriendrequestwindow.visible = true
+                    newfriendrequestwindow.visible = true;
                 }
             }
         }

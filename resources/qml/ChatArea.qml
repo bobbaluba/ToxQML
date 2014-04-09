@@ -11,7 +11,6 @@ Item{
         colorGroup: SystemPalette.Active
     }
 
-
     Rectangle{
         clip: true
         id: chatviewport
@@ -42,11 +41,10 @@ Item{
                 text: typeof friend == "undefined" ? "" : friend.chatlog
                 
                 onTextChanged: {
-                    if (contentHeight > chatviewport.height)
-                    {
-                        chatscroller.contentY = contentHeight - chatviewport.height
+                    if (contentHeight > chatviewport.height) {
+                        chatscroller.contentY = contentHeight - chatviewport.height;
                     } else {
-                        chatscroller.contentY = 0
+                        chatscroller.contentY = 0;
                     }
                 }
                 
@@ -83,25 +81,23 @@ Item{
                 selectedTextColor: palette2.highlightedText
                 selectByMouse: true
                 onCursorPositionChanged: {
-                    if (cursorRectangle.y >= textscroller.contentY + textviewport.height - 1.5*cursorRectangle.height - 6)
-                    {
-                        textscroller.contentY = cursorRectangle.y - textviewport.height + cursorRectangle.height*1.5
+                    if (cursorRectangle.y >= textscroller.contentY + textviewport.height - 1.5*cursorRectangle.height - 6) {
+                        textscroller.contentY = cursorRectangle.y - textviewport.height + cursorRectangle.height*1.5;
                     } else if (cursorRectangle.y < textscroller.contentY) {
-                        textscroller.contentY = cursorRectangle.y
+                        textscroller.contentY = cursorRectangle.y;
                     }
                 }
 
                 Keys.onPressed: {
                     if (event.key == Qt.Key_Enter || event.key == Qt.Key_Return){
-                        if(!(event.modifiers & Qt.ShiftModifier))
-                        {
-                            friend.sendMessage(text)
-                            text = ""
-                            event.accepted = true
+                        if(!(event.modifiers & Qt.ShiftModifier)) {
+                            friend.sendMessage(text);
+                            text = "";
+                            event.accepted = true;
                         }
                     } else if (event.key == Qt.Key_Escape) {
-                        text = ""
-                        focus = false
+                        text = "";
+                        focus = false;
                     }
                 }
 
