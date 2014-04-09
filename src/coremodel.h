@@ -51,19 +51,19 @@ class CoreModel : public QObject
 public:
     explicit CoreModel(Core* core, QObject *parent = 0);
 
-    QObject* user(){return m_user;}
-    QList<QObject*> friends(){return m_friendlist;}
-    QList<QObject*> requests(){return m_friendrequests;}
+    Friend* user(){return m_user;}
+    QList<QObject*> friends(){return m_friendList;}
+    QList<QObject*> requests(){return m_friendRequests;}
     bool connected(){return m_connected;}
 
-    Q_INVOKABLE void sendFriendrequest(const QString& key, const QString& message);
+    Q_INVOKABLE void sendFriendRequest(const QString& key, const QString& message);
     Q_INVOKABLE void sendFriendMessage(int id, const QString& message);
 
 private:
     Friend* m_user;
     QHash<int, Friend*> m_friendmap; //used- for looking up based on core friendnumber
-    QList<QObject*> m_friendlist; //the list qml cares about.
-    QList<QObject*> m_friendrequests;
+    QList<QObject*> m_friendList; //the list qml cares about.
+    QList<QObject*> m_friendRequests;
     bool m_connected;
 
     Core *m_core;
@@ -77,20 +77,19 @@ signals:
 
 public slots:
     void onConnectedChanged();
+    void onFriendAdded(int friendnumber, const QString& key);
+    void onFriendDelete(int friendnumber);
+    void onFriendRequest(const QString& key, const QString& message);
+    void onFriendMessage(int friendnumber, const QString& message);
+    void onFriendNameChanged(int friendnumber, const QString& name);
+    void onFriendStatusChanged(int friendnumber, TOX_USERSTATUS status);
+    void onFriendStatusMessageChanged(int friendnumber, const QString& message);
 
-    void onfriendAdded(int friendnumber, const QString& key);
-    void onfriendDelete(int friendnumber);
-    void onfriendRequest(const QString& key, const QString& message);
-    void onfriendMessage(int friendnumber, const QString& message);
-    void onfriendNameChanged(int friendnumber, const QString& name);
-    void onfriendStatusChanged(int friendnumber, TOX_USERSTATUS status);
-    void onfriendStatusMessageChanged(int friendnumber, const QString& message);
     void acceptFriendRequest(Request *newfriend);
-
     void setName(const QString& name);
     void setStatusMessage(const QString& note);
 
-    void coreStarted();
+    void onCoreStarted();
 };
 
 Q_DECLARE_METATYPE(Request*)

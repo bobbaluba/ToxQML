@@ -30,16 +30,16 @@ CoreModel::CoreModel(Core *core, QObject *parent) :
     m_user = new Friend(-1);
     m_user->setName("Hello");
     m_user->setStatus(StatusWrapper::Online);
-    connect(m_core, &Core::onFriendAdded, this, &CoreModel::onfriendAdded);
-    connect(m_core, &Core::onFriendRequested, this, &CoreModel::onfriendRequest);
-    connect(m_core, &Core::onFriendMessaged, this, &CoreModel::onfriendMessage);
-    connect(m_core, &Core::onFriendNameChanged, this, &CoreModel::onfriendNameChanged);
-    connect(m_core, &Core::onFriendStatusChanged, this, &CoreModel::onfriendStatusChanged);
-    connect(m_core, &Core::onFriendStatusTextChanged, this, &CoreModel::onfriendStatusMessageChanged);
+    connect(m_core, &Core::onFriendAdded, this, &CoreModel::onFriendAdded);
+    connect(m_core, &Core::onFriendRequested, this, &CoreModel::onFriendRequest);
+    connect(m_core, &Core::onFriendMessaged, this, &CoreModel::onFriendMessage);
+    connect(m_core, &Core::onFriendNameChanged, this, &CoreModel::onFriendNameChanged);
+    connect(m_core, &Core::onFriendStatusChanged, this, &CoreModel::onFriendStatusChanged);
+    connect(m_core, &Core::onFriendStatusTextChanged, this, &CoreModel::onFriendStatusMessageChanged);
 
     connect(m_core, &Core::connectedChanged, this, &CoreModel::onConnectedChanged);
 
-    connect(m_core, &Core::onStarted, this, &CoreModel::coreStarted);
+    connect(m_core, &Core::onStarted, this, &CoreModel::onCoreStarted);
 }
 
 void CoreModel::onConnectedChanged()
@@ -48,57 +48,57 @@ void CoreModel::onConnectedChanged()
     emit connectedChanged();
 }
 
-void CoreModel::onfriendAdded(int friendnumber, const QString &key)
+void CoreModel::onFriendAdded(int friendnumber, const QString &key)
 {
     Friend *newfriend = new Friend(friendnumber);
     newfriend->setToxId(key);
     newfriend->setName("???");
     newfriend->setStatus(StatusWrapper::Status::Offline);
-    m_friendlist.append(newfriend);
+    m_friendList.append(newfriend);
     m_friendmap[friendnumber] = newfriend;
     connect(newfriend, &Friend::m_sendmessage, this, &CoreModel::sendFriendMessage);
-    connect(newfriend, &Friend::deleteFriend, this, &CoreModel::onfriendDelete);
+    connect(newfriend, &Friend::deleteFriend, this, &CoreModel::onFriendDelete);
 
     emit friendsChanged();
 }
 
-void CoreModel::onfriendDelete(int friendnumber)
+void CoreModel::onFriendDelete(int friendnumber)
 {
     Friend* tmp = m_friendmap[friendnumber];
-    m_friendlist.removeAll(tmp);
+    m_friendList.removeAll(tmp);
     m_friendmap.remove(friendnumber);
     delete tmp;
     m_core->deleteFriend(friendnumber);
     emit friendsChanged();
 }
 
-void CoreModel::onfriendRequest(const QString& key, const QString& message)
+void CoreModel::onFriendRequest(const QString& key, const QString& message)
 {
     Request *newrequest = new Request(this);
     newrequest->m_key = key;
     newrequest->m_message = message;
 
-    m_friendrequests.append(newrequest);
+    m_friendRequests.append(newrequest);
     emit friendRequest(newrequest);
     emit requestsChanged();
 }
 
-void CoreModel::onfriendMessage(int friendnumber, const QString& message)
+void CoreModel::onFriendMessage(int friendnumber, const QString& message)
 {
     m_friendmap[friendnumber]->messageReceived(message);
 }
 
-void CoreModel::onfriendNameChanged(int friendnumber, const QString& name)
+void CoreModel::onFriendNameChanged(int friendnumber, const QString& name)
 {
     m_friendmap[friendnumber]->setName(name);
 }
 
-void CoreModel::onfriendStatusChanged(int friendnumber, TOX_USERSTATUS status)
+void CoreModel::onFriendStatusChanged(int friendnumber, TOX_USERSTATUS status)
 {
     m_friendmap[friendnumber]->setStatus((StatusWrapper::Status) status);
 }
 
-void CoreModel::onfriendStatusMessageChanged(int friendnumber, const QString& message)
+void CoreModel::onFriendStatusMessageChanged(int friendnumber, const QString& message)
 {
     m_friendmap[friendnumber]->setStatusMessage(message);
 }
@@ -106,11 +106,11 @@ void CoreModel::onfriendStatusMessageChanged(int friendnumber, const QString& me
 void CoreModel::acceptFriendRequest(Request *newfriend)
 {
     m_core->acceptFriendRequest(newfriend->m_key);
-    m_friendrequests.removeAll(newfriend);
+    m_friendRequests.removeAll(newfriend);
     emit requestsChanged();
 }
 
-void CoreModel::sendFriendrequest(const QString &key, const QString &message)
+void CoreModel::sendFriendRequest(const QString &key, const QString &message)
 {
     m_core->sendFriendRequest(key, message);
 }
@@ -134,7 +134,7 @@ void CoreModel::setStatusMessage(const QString &note)
     emit userChanged();
 }
 
-void CoreModel::coreStarted()
+void CoreModel::onCoreStarted()
 {
     m_user->setToxId(m_core->toxId());
     m_user->setName(m_core->name());
