@@ -30,12 +30,12 @@ CoreModel::CoreModel(Core *core, QObject *parent) :
     m_user = new Friend(-1);
     m_user->setName("Hello");
     m_user->setStatus(StatusWrapper::Online);
-    connect(m_core, &Core::onfriendAdded, this, &CoreModel::onfriendAdded);
-    connect(m_core, &Core::onfriendRequested, this, &CoreModel::onfriendRequest);
-    connect(m_core, &Core::onfriendMessaged, this, &CoreModel::onfriendMessage);
-    connect(m_core, &Core::onfriendNameChanged, this, &CoreModel::onfriendNameChanged);
-    connect(m_core, &Core::onfriendStatusChanged, this, &CoreModel::onfriendStatusChanged);
-    connect(m_core, &Core::onfriendStatusTextChanged, this, &CoreModel::onfriendStatusMessageChanged);
+    connect(m_core, &Core::onFriendAdded, this, &CoreModel::onfriendAdded);
+    connect(m_core, &Core::onFriendRequested, this, &CoreModel::onfriendRequest);
+    connect(m_core, &Core::onFriendMessaged, this, &CoreModel::onfriendMessage);
+    connect(m_core, &Core::onFriendNameChanged, this, &CoreModel::onfriendNameChanged);
+    connect(m_core, &Core::onFriendStatusChanged, this, &CoreModel::onfriendStatusChanged);
+    connect(m_core, &Core::onFriendStatusTextChanged, this, &CoreModel::onfriendStatusMessageChanged);
 
     connect(m_core, &Core::connectedChanged, this, &CoreModel::onConnectedChanged);
 
