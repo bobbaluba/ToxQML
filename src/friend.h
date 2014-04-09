@@ -33,7 +33,7 @@ class Friend : public QObject
     Q_PROPERTY(QString chatlog READ chatlog WRITE setchatlog NOTIFY chatlogChanged)
 
 public:
-    Friend(int id, QObject *parent = 0);
+    Friend(int friendNumber, QObject *parent = 0);
 
     QString username(){return m_username;}
     StatusWrapper::Status status(){return m_status;}
@@ -50,7 +50,7 @@ private:
     QString m_userid;
     QString m_chatlog;
 
-    int m_id; //I dont like you
+    int m_friendNumber; //I dont like you
 
 signals:
     void usernameChanged();

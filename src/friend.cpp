@@ -19,9 +19,9 @@
 
 #include "friend.h"
 
-Friend::Friend(int id, QObject *parent) : QObject(parent)
+Friend::Friend(int friendNumber, QObject *parent) : QObject(parent)
 {
-    m_id = id;
+    m_friendNumber = friendNumber;
 }
 
 void Friend::setusername(const QString &username)
@@ -61,7 +61,7 @@ void Friend::m_receivedMessage(const QString &message)
 
 void Friend::sendMessage(const QString &message)
 {
-    emit m_sendmessage(m_id, message);
+    emit m_sendmessage(m_friendNumber, message);
     m_chatlog.append("You: ");
     m_chatlog.append(message);
     m_chatlog.append("\n"); //this is kinda ugly
@@ -78,5 +78,5 @@ void Friend::messageReceived(const QString &message)
 
 void Friend::deleteMe()
 {
-    emit deleteFriend(m_id);
+    emit deleteFriend(m_friendNumber);
 }
