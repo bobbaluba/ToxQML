@@ -38,8 +38,8 @@ class Core : public QObject
 
 public:
     explicit Core(QObject *parent = 0);
-    QString userId();
-    QString username();
+    QString toxId();
+    QString name();
     bool connected(){return m_connected;}
 
 private:
@@ -97,13 +97,13 @@ public slots:
     void start();
     void stop();
 
-    void setuserUsername(const QString& name);
-    void setuserStatusnote(const QString& note);
+    void setName(const QString& name);
+    void setStatusMessage(const QString& note);
 
     void acceptFriendRequest(const QString& key);
     void sendFriendRequest(const QString& key, const QString& message);
 
-    void sendFriendMessage(int friendnumber, const QString& message);
+    void sendMessage(int friendnumber, const QString& message);
 
     void deleteFriend(int friendnumber);
 

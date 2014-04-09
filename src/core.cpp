@@ -32,7 +32,7 @@ Core::Core(QObject *parent) :
 {
 }
 
-QString Core::userId()
+QString Core::toxId()
 {
     QByteArray buffer;
     buffer.resize(TOX_FRIEND_ADDRESS_SIZE);
@@ -40,7 +40,7 @@ QString Core::userId()
     return buffer.toHex();
 }
 
-QString Core::username()
+QString Core::name()
 {
     QByteArray name;
     name.resize(TOX_MAX_NAME_LENGTH);
@@ -221,13 +221,13 @@ void Core::stop()
     tox_kill(m_tox);
 }
 
-void Core::setuserUsername(const QString &name)
+void Core::setName(const QString &name)
 {
     QByteArray tmp = name.toUtf8();
     tox_set_name(m_tox, reinterpret_cast<uint8_t*>(tmp.data()),tmp.size());
 }
 
-void Core::setuserStatusnote(const QString &note)
+void Core::setStatusMessage(const QString &note)
 {
     QByteArray tmp = note.toUtf8();
     tox_set_status_message(m_tox, reinterpret_cast<uint8_t*>(tmp.data()), tmp.size());
@@ -267,7 +267,7 @@ void Core::sendFriendRequest(const QString &address, const QString &message)
     }
 }
 
-void Core::sendFriendMessage(int friendnumber, const QString &message)
+void Core::sendMessage(int friendnumber, const QString &message)
 {
     QByteArray ret = message.toUtf8();
     tox_send_message(m_tox, friendnumber, reinterpret_cast<uint8_t*>(ret.data()), ret.size());

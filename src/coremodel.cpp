@@ -117,25 +117,25 @@ void CoreModel::sendFriendrequest(const QString &key, const QString &message)
 
 void CoreModel::sendFriendMessage(int id, const QString &message)
 {
-    m_core->sendFriendMessage(id, message);
+    m_core->sendMessage(id, message);
 }
 
 void CoreModel::setuserUsername(const QString &name)
 {
-    m_core->setuserUsername(name);
+    m_core->setName(name);
     m_user->setusername(name);
     emit userChanged();
 }
 
 void CoreModel::setuserStatusnote(const QString &note)
 {
-    m_core->setuserStatusnote(note);
+    m_core->setStatusMessage(note);
     m_user->setstatusNote(note);
     emit userChanged();
 }
 
 void CoreModel::coreStarted()
 {
-    m_user->setuserId(m_core->userId());
-    m_user->setusername(m_core->username());
+    m_user->setuserId(m_core->toxId());
+    m_user->setusername(m_core->name());
 }
